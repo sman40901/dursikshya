@@ -40,6 +40,9 @@ const lastNameValidate=()=>{
 const passwordValidate=()=>{
     return nameValidate('password',8);
 }
+
+
+
 /**
  * <form>
  * <input 
