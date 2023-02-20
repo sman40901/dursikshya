@@ -14,7 +14,7 @@ const nameValidate=(someName,requiredLength)=>{
         return false;
     } else if(str_name.length <= requiredLength){
         displayMessage(str_name
-        + " must be greater and "
+        + " must be greater than "
         + requiredLength 
         + " characters",span_id,errorColor);
         return false;
