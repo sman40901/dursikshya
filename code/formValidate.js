@@ -50,7 +50,7 @@ const passwordValidate=()=>{
  * name='firstName' 
  * id='firstName'
  * class = 'form-control'
- * onkeyup='firstNameValidate'
+ * onkeyup='firstNameValidate()'
  * />
  * <span
  * id = 'firstNameMsg'
@@ -60,7 +60,7 @@ const passwordValidate=()=>{
  * name='lastName' 
  * id='lastName'
  * class = 'form-control'
- * onkeyup='lastNameValidate'
+ * onkeyup='lastNameValidate()'
  * />
  * <span
  * id = 'lastNameMsg'
@@ -70,7 +70,7 @@ const passwordValidate=()=>{
  * name='password' 
  * id='password'
  * class = 'form-control'
- * onkeyup='passwordValidate'
+ * onkeyup='passwordValidate()'
  * />
  * <span
  * id = 'passwordMsg'
