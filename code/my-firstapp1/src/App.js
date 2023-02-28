@@ -14,12 +14,14 @@
 // }
 
 import MyRoutes from "./MyRoutes";
+import NavMenu from "./NavMenu";
 
 const App=(props)=> {
   const currDate = new Date();
   return (
     <>
-      <MyRoutes/>
+      {/* <MyRoutes/> */}
+      <NavMenu/>
     </>
   );
 }

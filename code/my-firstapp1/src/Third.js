@@ -3,7 +3,7 @@ import React from "react";
 export const Third = () => {
   return (
     <>
-      <h1>Third</h1>
+      <h1>This is Third</h1>
     </>
   );
 };
