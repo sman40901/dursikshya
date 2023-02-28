@@ -7,7 +7,7 @@ const NavMenu = () => {
       <h1>NavMenu</h1>
       <nav>
         <ul>
-        <li>
+          <li>
             <a href="/">Home</a>
           </li>
           <li>
@@ -24,7 +24,7 @@ const NavMenu = () => {
           </li>
         </ul>
       </nav>
-      <MyRoutes/>
+      <MyRoutes />
     </>
   );
 };
