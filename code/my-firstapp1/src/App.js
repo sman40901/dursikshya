@@ -13,15 +13,19 @@
 //   );
 // }
 
-import MyRoutes from "./MyRoutes";
+import Layouts from "./components/Layouts";
+// import MyRoutes from "./MyRoutes";
 import NavMenu from "./NavMenu";
+import Home from "./pages/Home";
 
 const App=(props)=> {
   const currDate = new Date();
   return (
     <>
       {/* <MyRoutes/> */}
-      <NavMenu/>
+      {/* <NavMenu/> */}
+      {/* <Layouts/> */}
+      <Home/>
     </>
   );
 }
