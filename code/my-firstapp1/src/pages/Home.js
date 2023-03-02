@@ -4,7 +4,7 @@ import Layouts from '../components/Layouts'
 const Home = () => {
   return (
     <>
-    <Layouts/>
+    
     </>
   )
 }
