@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import Layouts from '../components/Layouts'
 import Slider from '../components/Slider'
 import Card from '../components/Card'
