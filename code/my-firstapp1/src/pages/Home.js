@@ -3,6 +3,8 @@ import Layouts from '../components/Layouts'
 import Slider from '../components/Slider'
 import Card from '../components/Card'
 import IncrementDecrement from '../hooks/IncrementDecrement'
+import Effect from '../hooks/Effect'
+import DataFetch from '../hooks/DataFetch'
 
 const Home = () => {
   return (
@@ -10,6 +12,8 @@ const Home = () => {
     <Slider/>
     <Card/>
     <IncrementDecrement/>
+    <Effect/>
+    <DataFetch/>
     </>
   )
 }
