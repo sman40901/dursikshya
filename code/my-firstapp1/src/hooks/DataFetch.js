@@ -3,9 +3,10 @@ import axios from "axios";
 import Data from "./Data";
 
 const DataFetch = () => {
+  const standardLimit = 8;
   const [post, setPost] = useState([]);
   // creating a page limit system using limit
-  const [limit, setLimit] = useState(8);
+  const [limit, setLimit] = useState(standardLimit);
 
   useEffect(() => {
     axios
@@ -29,18 +30,23 @@ const DataFetch = () => {
           })}
           <center>
             {/* we need to show limited content on clicking show more button not all the items */}
-            {limit< post.length && <button
-              className="btn btn-warning mb-3"
-              onClick={() => setLimit(limit + 8)}
-            >
-              Show More
-            </button>} &nbsp;&nbsp;&nbsp;&nbsp;
-            {limit> 0 && <button
-              className="btn btn-warning mb-3"
-              onClick={() => setLimit(limit - 8)}
-            >
-              Show Less
-            </button>}
+            {limit < post.length && (
+              <button
+                className="btn btn-warning mb-3"
+                onClick={() => setLimit(limit + standardLimit)}
+              >
+                Show More
+              </button>
+            )}{" "}
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            {limit > standardLimit && (
+              <button
+                className="btn btn-warning mb-3"
+                onClick={() => setLimit(limit - standardLimit)}
+              >
+                Show Less
+              </button>
+            )}
           </center>
         </div>
       </div>
@@ -49,3 +55,5 @@ const DataFetch = () => {
 };
 
 export default DataFetch;
+
+// https://fakestoreapi.com/products - use this to create a new data 
