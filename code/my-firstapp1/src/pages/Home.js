@@ -28,9 +28,13 @@ const Home = () => {
       <Slider />
       <div className="container my-3">
         <div className="row row-cols-1 row-cols-md-4 g-4">
-          {products && products.map((product,index)=>{
-          return <Card key={index} productName={product.title} productPrice={product.price} productImage={product.image}/>
-        })}
+          {products && products.map((product, index) => {
+            return <Card key={index}
+              productName={product.title}
+              productPrice={product.price}
+              productImage={product.image}
+              id={product.id} />
+          })}
         </div>
       </div>
       <IncrementDecrement />

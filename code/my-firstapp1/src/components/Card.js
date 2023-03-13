@@ -1,8 +1,9 @@
 import React from "react";
 import './card.css'
+import { Link } from "react-router-dom";
 
 const Card = (props) => {
-  const { productName, productPrice, productImage } = props;
+  const { productName, productPrice, productImage, id } = props;
   // above statement is equivalent to
   // const productName=props.productName;
   return (
@@ -21,9 +22,9 @@ const Card = (props) => {
           <div className="card-body">
             <h5 className="card-title">{productName.slice(0,20)}</h5>
             <h5>${productPrice}</h5>
-            <a href="" className="btn btn-primary">
+            <Link to={`/productdetails/${id}`} className="btn btn-primary">
               View Details
-            </a>
+            </Link>
           </div>
         </div>
       </div>
