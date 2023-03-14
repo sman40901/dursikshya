@@ -9,6 +9,7 @@ import Layouts from "./components/Layouts";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ProductDetails from "./pages/ProductDetails";
+import Cart from "./pages/Cart";
 
 const MyRoutes = () => {
   return (
@@ -27,6 +28,7 @@ const MyRoutes = () => {
           <Route path="login" element={<Login />} />
           <Route path="productdetails/:productId" element={<ProductDetails />} /> 
           {/* : varname indicates query string parameter */}
+          <Route path="cart" element={<Cart />} /> 
         </Route>
       </Routes>
     </Router>

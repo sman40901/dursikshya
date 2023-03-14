@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom"; // to get id of the product as parameter
 // import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icon/fa'
+import { ToastContainer, toast } from 'react-toastify';
 import axios from "axios";
 import RatingStar from "../components/RatingStar";
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProductDetails = () => {
 
@@ -17,8 +20,34 @@ const ProductDetails = () => {
             .catch(err => console.log(err));
     }, [params.productId]); // useEffect is called everytime productId changes
 
+    // handling add to cart click
+    const clickAddToCart = () => {
+        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        // if cart items already exist then get it or else create an empty array
+        const productItem = {
+            id: product.id,
+            title: product.title,
+            price: product.price,
+            image: product.image,
+            category: product.category,
+            rating: product.rating,
+            quantity: 1
+        };
+        const existingItem = cartItems.find((item) => item.id === product.id);
+        if (existingItem) {
+            toast.error('Product already exists in the cart');
+        }
+        else {
+            cartItems.push(productItem);
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            // toast.success('Product added in the cart');
+            toast.success(`${productItem.title} is added to cart`);
+        }
+    }
+
     return (
         <>
+            <ToastContainer theme='colored' position="top-center" />
             <div className='card shadow-lg my-4 offset-md-3' styles={{ maxwidth: '800 px' }}>
                 <div className="row">
                     <div className="col-md-6 my-3 p-3">
@@ -33,11 +62,11 @@ const ProductDetails = () => {
                     </div>
                 </div>
                 {product.rating &&
-                    <RatingStar rating={product.rating.rate} /> 
+                    <RatingStar rating={product.rating.rate} />
                 }
                 {product.rating && <>({product.rating.count})</>}
-                <br/>
-                <button className="btn btn-success">Add to cart</button>
+                <br />
+                <button className="btn btn-success" onClick={clickAddToCart}>Add to cart</button>
             </div>
         </>
     );
