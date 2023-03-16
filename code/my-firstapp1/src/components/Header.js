@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, Route, Routes } from "react-router-dom"; // to load only new changes
+import { FaShoppingCart } from 'react-icons/fa'
 
 const Header = () => {
   return (
@@ -8,7 +9,7 @@ const Header = () => {
         <div className="container">
           <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <Link
-              href="/"
+              to="/"
               className="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none"
             >
               {/* <svg
@@ -24,27 +25,27 @@ const Header = () => {
 
             <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
               <li>
-                <Link href="#" className="nav-link px-2 text-secondary">
+                <Link to="/" className="nav-link px-2 text-secondary">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="#" className="nav-link px-2 text-white">
+                <Link to="#" className="nav-link px-2 text-white">
                   Features
                 </Link>
               </li>
               <li>
-                <Link href="#" className="nav-link px-2 text-white">
+                <Link to="#" className="nav-link px-2 text-white">
                   Pricing
                 </Link>
               </li>
               <li>
-                <Link href="#" className="nav-link px-2 text-white">
+                <Link to="#" className="nav-link px-2 text-white">
                   FAQs
                 </Link>
               </li>
               <li>
-                <Link href="#" className="nav-link px-2 text-white">
+                <Link to="#" className="nav-link px-2 text-white">
                   About
                 </Link>
               </li>
@@ -60,12 +61,13 @@ const Header = () => {
             </form>
 
             <div className="text-end">
-              <button type="button" className="btn btn-outline-light me-2">
+              <Link to="/login" className="btn btn-outline-light me-2">
                 Login
-              </button>
-              <button type="button" className="btn btn-warning">
+              </Link>
+              <Link to="/register" className="btn btn-warning">
                 Sign-up
-              </button>
+              </Link>
+              <Link to="/cart" className='btn btn-success ms-2'><FaShoppingCart/> </Link>
             </div>
           </div>
         </div>
