@@ -31,7 +31,8 @@ const Cart = () => {
             if (item.id === id) {
                 // return item.quantity = Number(item.quantity)+1;
                 // ... rest opreator
-                // we need to change the state and to change the state we need to overwrite it with new object
+                // we need to change the state and to change the state and 
+                // we need to overwrite it with new object
                 if (Number(item.quantity) > 1) {
                     return { ...item, quantity: Number(item.quantity) - 1 };
                 }
