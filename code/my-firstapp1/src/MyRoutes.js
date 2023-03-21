@@ -25,7 +25,7 @@ const MyRoutes = () => {
             <Route path="*" element={ <NoPage/> } /> */}
         <Route path="/" element={<Layouts />}>
           <Route index element={<Home />} />
-          <Route home element={<Home />} />
+          <Route path="home" element={<Home />} />
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
           <Route path="productdetails/:productId" element={<ProductDetails />} /> 
