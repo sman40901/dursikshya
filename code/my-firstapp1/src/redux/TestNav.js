@@ -1,6 +1,7 @@
 import React from 'react'
 import Items from './Items'
 import { useSelector } from 'react-redux'
+import Student from './Student';
 
 
 const TestNav = () => {
@@ -9,6 +10,7 @@ const TestNav = () => {
         <>
             <h2 className='text-info'>Number of items in the cart is {data.cartcount}</h2>
             <Items />
+            <Student />
         </>
     )
 }
