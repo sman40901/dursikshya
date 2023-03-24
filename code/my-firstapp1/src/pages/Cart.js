@@ -16,7 +16,7 @@ const Cart = () => {
         const data = JSON.parse(cartData);
         setProducts(data); // add products to the cart
         // }, [])
-    }, [products]);
+    }, [products]); // refreshes when product is added or removed
 
     const removeCartHandler = (id, title) => {
         const cartItems = JSON.parse(localStorage.getItem('cartItems'));
