@@ -6,13 +6,18 @@ const app=express();
 require('dotenv').config(); // if we dont import like this we wont be able to use dotenv file
 require('./db/connection');
 
+const bodyParser=require('body-parser');
+
+//middleware
+app.use(bodyParser.json());
+
 // app.get('/',(req,res)=>{
 //     res.send("hello ecommerce service is running");
 // })
 
-app.get('/lifeCheck',(req,res)=>{
-    res.send("hello ecommerce service is running");
-})
+// app.get('/lifeCheck',(req,res)=>{
+//     res.send("hello ecommerce service is running");
+// })
 
 // app.get('/test',(req,res)=>{
 //     res.send('this is a test fucntion');
