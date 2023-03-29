@@ -21,6 +21,20 @@ exports.productPost = async (req, res) => {
 //to show all products
 exports.productList = async (req, res) => {
     const product = await Product.find();
+    if (req.params.order) {
+        if (req.params.order == 'asc') {
+            console.log("product ascending");
+            product.sort((a, b) => {
+                return a.createdAt - b.createdAt;
+            })
+        }
+        if(req.params.order == 'desc'){
+            console.log("product descending");
+            product.sort((a, b) => {
+                return b.createdAt - a.createdAt;
+            })
+        }
+    }
     if (!product) {
         return res.status(400).json({ error: 'something went wrong' });
     }

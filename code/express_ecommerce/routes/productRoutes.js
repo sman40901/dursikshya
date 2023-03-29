@@ -4,6 +4,6 @@ const { productPost, productList, productId } = require('../controllers/productC
 const router = express.Router();
 
 router.post("/productpost", productPost)
-router.get('/productlist',productList);
+router.get('/productlist/:order',productList);
 router.get('/productdetails/:id',productId);
 module.exports = router
