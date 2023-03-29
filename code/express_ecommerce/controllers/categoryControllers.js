@@ -79,6 +79,7 @@ exports.categoryUpdate = async (req, res) => {
     res.send(category);
 }
 
+// we dont need to wait for response
 exports.categoryDelete =  (req, res) => {
     const category = Category.findByIdAndRemove(
         req.params.id
