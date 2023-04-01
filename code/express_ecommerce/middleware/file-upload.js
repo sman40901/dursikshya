@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
         cb(null, fileDestination);
     },
     filename: (req, file, cb) => {
-        let extname = file.extname(file.originalname);
+        let extname = path.extname(file.originalname);
         let filename = path.basename(file.originalname, extname);
         // path.basename('images/foo/abc.jpg','.jpg') returns 'abc' 
         cb(null, filename + '_' + Date.now() + extname);
@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
 });
 
 let imageFilter = (req, file, cb) => {
-    if (!file.originalname.match(/\.(jpg|png|jpeg)$/)) {
+    if (!file.originalname.match(/\.(jpg|png|jpeg|svg|jfif|gif|JPG|PNG|SVG|PNGJFIF|GIF)$/)) {
         return cb(new Error('You can upload image file only'), false);
     }
     else {
@@ -29,12 +29,13 @@ let imageFilter = (req, file, cb) => {
     }
 }
 
-const multer = multer({
+const upload = multer({
     storage: storage,
     fileFilter: imageFilter,
     limits: {
-        fileSize: 3000000 // 3 MB
+        fileSize: 3*1024*1024 // 3 MB
     }
 })
 
-module.export = upload
+// module.export = upload; // if you mis-spell like this then you will have a headache
+module.exports = upload;

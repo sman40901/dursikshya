@@ -12,6 +12,9 @@ const morgan = require("morgan");
 //middleware
 app.use(bodyParser.json());
 app.use(morgan('dev')); // use in development mode only
+app.use('/public/uploads', express.static('public/uploads'));
+//express.static is used for static path, 
+// this should match with let fileDestination = 'public/uploads/'; in file-upload.js
 
 // app.get('/',(req,res)=>{
 //     res.send("hello ecommerce service is running");
