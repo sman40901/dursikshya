@@ -13,3 +13,11 @@ exports.userPost = async (req, res) => {
     }
     res.send(user);
 }
+
+exports.userList = async (req, res) => {
+    const user = await User.find();
+    if (!user) {
+        return res.status(400).json({ error: 'something went wrong' });
+    }
+    res.send(user);
+}
