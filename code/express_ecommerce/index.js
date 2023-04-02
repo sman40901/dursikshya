@@ -30,10 +30,12 @@ app.get('/lifeCheck', (req, res) => {
 
 const categoryRoute = require('./routes/categoryRoutes');
 const productRoute = require('./routes/productRoutes');
+const authRoute = require("./routes/authRoutes");
 
 //routes
 app.use('/api', categoryRoute);
 app.use('/api', productRoute);
+app.use('/api', authRoute);
 
 const port = process.env.PORT || 8000
 app.listen(port, () => {
