@@ -14,7 +14,7 @@ exports.productPost = async (req, res) => {
     })
     product = await product.save();
     if (!product) {
-        return res.status(400).json({ error: 'something wennt wrong' });
+        return res.status(400).json({ error: 'something went wrong' });
     }
     res.send(product);
 }
