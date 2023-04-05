@@ -2,6 +2,7 @@ const User = require('../models/authModel');
 const crypto = require('crypto');
 const Token = require('../models/tokenModel');
 const sendEmail = require('../utils/setEmail');
+const jwt = require('jsonwebtoken'); // needed for authencation
 
 
 // to register user 
@@ -120,5 +121,64 @@ exports.signIn = async (req, res) => {
     if (!user.isVerified) {
         return res.status(400).json({ error: 'email is not verified yet, please verify your email' });
     }
-    return res.json({ user: user });
+
+    // now generate token with user id and jwt secret
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+    // store jwt token in cookie
+    res.cookie('myCookie', token, { expire: Date.now() + 99999 }) // expiry date is of cookie
+    // return user information to frontend 
+    const { _id, name, role } = user;
+    // return res.json({ user: user });
+    return res.json({ token, user: { name, email, role, _id } });
+}
+
+// forgot password
+exports.forgotPassword = async (req, res) => {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+        return res.status(400).json({ error: "email not found, please register" })
+    }
+    if (!user.isVerified) {
+
+    }
+    let token = new Token({
+        userId: user._id,
+        token: crypto.randomBytes(16).toString('hex')
+    })
+    token = await token.save();
+    if (!token) {
+        return res.status(500).json({ error: 'failed to create a token' });
+    }
+
+    // send email process for verification purpose
+    // to reset password
+    sendEmail({
+        from: 'no-reply@express.com',
+        to: user.email,
+        subject: 'password reset link',
+        text: `hello, \n\n
+        please reset your password by clicking on the link:\n\n
+        http:\/\/${req.headers.host}\/api\/resetpassword\/${token.token}
+        `
+    })
+    res.json({ message: 'password reset link has been sent to your email' });
+}
+
+exports.resetPassword = async (req, res) => {
+    // find valid token
+    let token = await Token.findOne({ token: req.params.token })
+    if (!token) {
+        return res.status(400).json({ error: 'invalid token or token has expired' })
+    }
+    // if token foudn then find valid user
+    let user = await User.findOne({ _id: token.userId })
+    if (!user) {
+        return res.status(400).json({ error: "user not found" })
+    }
+    user.password = req.body.password;
+    user = await user.save();
+    if (!user) {
+        return res.status(500).json({ error: 'failed to reset password' })
+    }
+    res.json({ message: 'password has been reset' });
 }
