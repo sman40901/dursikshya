@@ -10,7 +10,8 @@ exports.postCategory = async (req, res) => {
     let category = new Category({
         category_name: req.body.category_name
     });
-    // to check if data already exists
+   
+    // wrong way to do
     // Category.findOne({ category_name: category.category_name }, async (error, data) => {
     //     if (/*!error || */
     //         data == null) {
@@ -24,6 +25,8 @@ exports.postCategory = async (req, res) => {
     //         return res.status(400).json({ error: 'category must be unique, this already exists' })
     //     }
     // });
+
+     // to check if data already exists
     Category.findOne({ category_name: category.category_name }) // finds element from database not in memory
         .then(async categories => {
             if (categories) {

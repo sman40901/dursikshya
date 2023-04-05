@@ -31,7 +31,8 @@ const authSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 
-// to hash password that is orovided by user we use virtual fields
+// to hash password that is provided by user we use virtual fields
+// setters and getters
 authSchema.virtual('password') //req.body.password
     .set(function (password) {
         this._password = password;
@@ -55,6 +56,10 @@ authSchema.methods = {
         catch (err) {
             return '';
         }
+    },
+
+    authenticate: function (plainText){
+        return this.encryptPassword(plainText)===this.hashed_password;
     }
 }
 
