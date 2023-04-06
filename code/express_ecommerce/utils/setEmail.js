@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer')
 
 const sendEmail = options => {
+    // define mail server to use
     const transport = nodemailer.createTransport({
         host: process.env.SMTP_HOST,
         port: process.env.SMTP_PORT,
