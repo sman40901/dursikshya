@@ -28,6 +28,28 @@ exports.productValidation = [
         .notEmpty()
 ]
 
+exports.userValidation = [
+    check('name', 'name is mandatory').notEmpty()
+        .isLength({ min: 3 }).withMessage('name must be at least 3 characters'),
+    check('email', 'email is mandatory').notEmpty()
+        .isEmail().withMessage('invalid email format.'),
+    check('password', 'password is mandatory').notEmpty()
+        .matches(/[a-z]/).withMessage('password must be at least one lowercase letter')
+        .matches(/[A-z]/).withMessage('password must be at least one uppercase letter')
+        .matches(/[0-9]/).withMessage('password must be at least one numeric value')
+        .matches(/[@#$^&*/?!~._]/).withMessage('password must be at least one special character')
+        .isLength({ min: 8 }).withMessage('name must be at least 8 characters')
+]
+
+exports.passwordValidation=[
+    check('password', 'password is mandatory').notEmpty()
+        .matches(/[a-z]/).withMessage('password must be at least one lowercase letter')
+        .matches(/[A-z]/).withMessage('password must be at least one uppercase letter')
+        .matches(/[0-9]/).withMessage('password must be at least one numeric value')
+        .matches(/[@#$^&*/?!~._]/).withMessage('password must be at least one special character')
+        .isLength({ min: 8 }).withMessage('name must be at least 8 characters')
+]
+
 exports.validation = (req, res, next) => {
     // next tells this function to goto next step
     const errors = validationResult(req)

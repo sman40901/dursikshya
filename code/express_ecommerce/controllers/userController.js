@@ -3,6 +3,8 @@ const crypto = require('crypto');
 const Token = require('../models/tokenModel');
 const sendEmail = require('../utils/setEmail');
 const jwt = require('jsonwebtoken'); // needed for authencation
+const { expressjwt } = require("express-jwt"); // needed for authorization
+
 
 
 // to register user 
@@ -54,8 +56,21 @@ exports.userPost = async (req, res) => {
 
 }
 
+// get user list
 exports.userList = async (req, res) => {
-    const user = await User.find();
+    const user = await User.find()
+        .select('-hashed_password')
+        .select('-salt');
+    if (!user) {
+        return res.status(400).json({ error: 'something went wrong' });
+    }
+    res.send(user);
+}
+
+exports.userDetails = async (req, res) => {
+    const user = await User.findById(req.params.id)
+        .select('-hashed_password')
+        .select('-salt');
     if (!user) {
         return res.status(400).json({ error: 'something went wrong' });
     }
@@ -85,12 +100,12 @@ exports.postEmailConfirmation = (req, res) => {
                         .then(user => {
                             if (!user) {
                                 // what if the server is down, should this be 400 or 500 error?
-                                return res.status(400).json({ error: 'failed to verify your email, please try again' })
+                                return res.status(500).json({ error: 'failed to verify your email, please try again' })
                             }
                             res.json({ message: 'your email has been verified' });
                         })
                         .catch(err => {
-                            return res.status(400).json({ error: err });
+                            return res.status(500).json({ error: err });
                         })
                 })
                 .catch(err => {
@@ -181,4 +196,16 @@ exports.resetPassword = async (req, res) => {
         return res.status(500).json({ error: 'failed to reset password' })
     }
     res.json({ message: 'password has been reset' });
+}
+
+// require sign in
+exports.requireSignin = expressjwt({
+    secret: process.env.JWT_SECRET,
+    algorithms: ["HS256"]
+});
+
+//sign out
+exports.signOut = (req, res) => {
+    res.clearCookie('myCookie');
+    res.json({message:'signout success'});
 }
