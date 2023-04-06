@@ -207,5 +207,57 @@ exports.requireSignin = expressjwt({
 //sign out
 exports.signOut = (req, res) => {
     res.clearCookie('myCookie');
-    res.json({message:'signout success'});
+    res.json({ message: 'signout success' });
+}
+
+// change password
+exports.changePassword = async (req, res) => {
+    // find valid token
+    const { email, oldpassword, newpassword } = req.body;
+
+    // not sure how not to let this user to change other user's password
+    // we would need to deconstruct the token and check email against this user??
+    const user = await User.findOne({ email });
+    if (!user) {
+        return res.status(400).json({ error: 'email or password does not match!!!' });
+    }
+
+    let oldHashedPass = user.authenticate(oldpassword);
+    let newHashedPass = user.authenticate(newpassword);
+
+    // if email is found then check password for that email
+    if (!oldHashedPass) {
+        return res.status(400).json({ error: 'old password does not match!!' });
+    }
+
+    // make sure new password is not old password
+    if (oldHashedPass == newHashedPass) {
+        return res.status(400).json({ error: 'your new password cannot be your old password' })
+    }
+
+    // reset new password
+    user.password = req.body.newpassword;
+    user = await user.save();
+    if (!user) {
+        return res.status(500).json({ error: 'failed to reset password' })
+    }
+    res.json({ message: 'password has been reset' });
+}
+
+// delete user
+exports.userDelete = (req, res) => {
+    const user =  User.findOne(
+        req.params.email
+    )
+        .then(user => {
+            if (!user) {
+                return res.status(403).json({ error: 'user not found' });
+            }
+            else {
+                return res.status(200).json({ message: 'user deleted' })
+            }
+        })
+        .catch(err => {
+            return res.status(400).json({ error: 'user not found' })
+        })
 }
