@@ -212,8 +212,6 @@ exports.signOut = (req, res) => {
 
 // change password
 exports.changePassword = async (req, res) => {
-    // find valid token
-    const { oldpassword, newpassword } = req.body;
 
     // not sure how not to let this user to change other user's password
     // we would need to deconstruct the token and check email against this user??
@@ -222,8 +220,8 @@ exports.changePassword = async (req, res) => {
         return res.status(400).json({ error: 'email or password does not match!!!' });
     }
 
-    let oldHashedPass = user.authenticate(oldpassword);
-    let newHashedPass = user.authenticate(newpassword);
+    let oldHashedPass = user.authenticate(req.body.oldpassword);
+    let newHashedPass = user.authenticate(req.body.newpassword);
 
     // if email is found then check password for that email
     if (!oldHashedPass) {
