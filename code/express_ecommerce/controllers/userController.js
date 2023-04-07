@@ -244,7 +244,7 @@ exports.changePassword = async (req, res) => {
 
 // delete user
 exports.userDelete = async (req, res) => {
-    const u = await User.findOne({email: req.params.email});
+    const u = await User.findOne({ email: req.params.email });
     const user = User.findByIdAndRemove(
         u._id,
     )
