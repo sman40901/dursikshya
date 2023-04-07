@@ -13,7 +13,7 @@ exports.postOrders = async (req, res) => {
         return newOrderItem._id;
     })) // promise will wait till all the order request is back
 
-    const orderItemIdResolve = await orderItemIds 
+    const orderItemIdResolve = await orderItemIds
     // we need to wait for the order Id from above promise
     //should be an array
 
@@ -22,10 +22,11 @@ exports.postOrders = async (req, res) => {
         const itemOrder = await OrderItem.findById(orderId).populate('product', 'product_price');
         const total = itemOrder.quantity * itemOrder.product.product_price;
         return total;
+        // total will be returned as array if there are multiple items
     }))
 
     const TotalPrice = totalAmount.reduce((acc, currval) => acc + currval, 0);
-    // all values from array in which is returned by total array
+    // all values needs to be reduced  array in which is returned by total array
 
     let order = new Order({
         orderItems: orderItemIdResolve,
