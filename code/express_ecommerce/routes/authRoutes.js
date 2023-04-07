@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { userPost, userList, postEmailConfirmation, signIn, forgotPassword, resetPassword, userDetails, requireSignin, signOut, changePassword, userDelete } = require('../controllers/userController');
+const { userPost, userList, postEmailConfirmation, signIn, forgotPassword, resetPassword, userDetails, requireSignin, signOut, changePassword, userDelete, userActivate } = require('../controllers/userController');
 const { userValidation, validation, passwordValidation } = require('../validation/validator');
 
 router.post('/userpost', userValidation, validation, userPost);
@@ -12,10 +12,11 @@ router.post('/forgotpassword', forgotPassword);
 router.put('/resetpassword/:token', passwordValidation, validation, resetPassword);
 router.get('/userdetails/:id', requireSignin, userDetails);
 router.get('/signout', requireSignin, signOut);
+router.post('/activate', userActivate);
 
 // change password - DIY
 router.post('/changepassword', requireSignin, changePassword);
 
 // delete user -DIY
-router.post('/deleteuser', requireSignin, userDelete);
+router.delete('/deleteuser/:email', requireSignin, userDelete);
 module.exports = router;

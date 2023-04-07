@@ -213,11 +213,11 @@ exports.signOut = (req, res) => {
 // change password
 exports.changePassword = async (req, res) => {
     // find valid token
-    const { email, oldpassword, newpassword } = req.body;
+    const { oldpassword, newpassword } = req.body;
 
     // not sure how not to let this user to change other user's password
     // we would need to deconstruct the token and check email against this user??
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: req.body.email });
     if (!user) {
         return res.status(400).json({ error: 'email or password does not match!!!' });
     }
@@ -245,9 +245,10 @@ exports.changePassword = async (req, res) => {
 }
 
 // delete user
-exports.userDelete = (req, res) => {
-    const user =  User.findOne(
-        req.params.email
+exports.userDelete = async (req, res) => {
+    const u = await User.findOne({email: req.params.email});
+    const user = User.findByIdAndRemove(
+        u._id,
     )
         .then(user => {
             if (!user) {
@@ -260,4 +261,18 @@ exports.userDelete = (req, res) => {
         .catch(err => {
             return res.status(400).json({ error: 'user not found' })
         })
+}
+
+exports.userActivate = async (req, res) => {
+
+    let user = await User.findOne({ email: req.body.email })
+    if (!user) {
+        return res.status(400).json({ error: "user not found" })
+    }
+    user.isVerified = true;
+    user = await user.save();
+    if (!user) {
+        return res.status(500).json({ error: 'user could not be updated' });
+    }
+    res.send(user);
 }
