@@ -23,7 +23,7 @@ exports.productPost = async (req, res) => {
 exports.productList = async (req, res) => {
     const product = await Product.find()
         .populate('category', 'category_name')
-        .sort(createdAt - 1); // inner join using category forieng key
+        // .sort(createdAt); // inner join using category forieng key
     // if (req.params.order) {
     //     if (req.params.order == 'asc') {
     //         console.log("product ascending");
