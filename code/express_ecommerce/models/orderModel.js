@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Schema // id of a model
+const { ObjectId } = mongoose.Schema  // id of a model
+// const User = require('../models/authModel');
 
 
 const orderSchema = new mongoose.Schema({
@@ -44,7 +45,7 @@ const orderSchema = new mongoose.Schema({
     user: {
         type: ObjectId,
         required: true,
-        ref: User
+        ref: 'User'
     }
     // dateOrdered:{
     //     type:Date,
