@@ -72,3 +72,36 @@ exports.orderDetails = async (req, res) => {
     }
     res.send(order);
 }
+
+exports.orderUpdate = async (req, res) => {
+    const order = await Order.findByIdAndUpdate(
+        req.params.id,
+        {
+            status: req.body.status
+        },
+        {
+            // this is to show updated value 
+            new: true
+        }
+    );
+    if (!order) {
+        return res.status(400).json({ error: 'id not found' });
+    }
+    res.send(order);
+}
+
+
+exports.userOrderDetails = async (req, res) => {
+    const order = await Order.find({ user: req.params.userid }) // 'user' is a key inside Order
+        .populate('user', 'name')
+        .populate({
+            path: 'orderItems', populate: {
+                path: 'product', populate: 'category'
+            }
+        })
+        .sort({ createdAt: -1 });
+    if (!order) {
+        return res.status(400).json({ error: 'user id not found' });
+    }
+    res.send(order);
+}
