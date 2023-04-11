@@ -105,3 +105,23 @@ exports.userOrderDetails = async (req, res) => {
     }
     res.send(order);
 }
+
+
+exports.deleteOrder = (req, res) => {
+    Order.findByIdAndRemove(req.params.id)
+        .then(async order => {
+            if (order) {
+                await order.orderItems.map(async orderItem => { // delete item one by one from array
+                    await OrderItem.findByIdAndRemove(orderItem)
+                    // this is to delete orderItem inside order
+                })
+                return res.json({ message: 'order has been deleted' })
+            }
+            else {
+                return res.status(500).json({ error: 'could not delete order' })
+            }
+        })
+        .catch(err => {
+            return res.status(400).json({ error: err })
+        })
+}
