@@ -25,5 +25,9 @@
     "routes": "^2.1.0",
     "stripe": "^12.0.0",
     "uuidv1": "^1.6.14"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "supertest": "^6.3.3"
   }
 }
