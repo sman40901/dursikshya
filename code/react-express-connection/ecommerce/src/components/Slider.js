@@ -1,10 +1,8 @@
-
-import React from "react";
+import React from 'react'
 
 const Slider = () => {
   return (
     <>
-      {/* <!-- carousel layout start --> */}
       <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="carousel">
         <div className="carousel-indicators">
           <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" className="active"
@@ -51,8 +49,9 @@ const Slider = () => {
           <span className="visually-hidden">Next</span>
         </button>
       </div>
+
     </>
-  );
+  )
 }
 
-export default Slider;
+export default Slider
