@@ -16,7 +16,7 @@ const Cart = () => {
         const data = JSON.parse(cartData);
         setProducts(data); // add products to the cart
         // }, [])
-    }, [products]);
+    }, [products]); // refreshes when product is added or removed
 
     const removeCartHandler = (id, title) => {
         const cartItems = JSON.parse(localStorage.getItem('cartItems'));
@@ -31,7 +31,8 @@ const Cart = () => {
             if (item.id === id) {
                 // return item.quantity = Number(item.quantity)+1;
                 // ... rest opreator
-                // we need to change the state and to change the state we need to overwrite it with new object
+                // we need to change the state and to change the state and 
+                // we need to overwrite it with new object
                 if (Number(item.quantity) > 1) {
                     return { ...item, quantity: Number(item.quantity) - 1 };
                 }
