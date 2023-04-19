@@ -1,14 +1,15 @@
-import React from "react";
-import { Link, Outlet } from "react-router-dom";
-import Header from "./Header";
-import Footer from "./Footer";
-
+import React from 'react'
+import { Outlet } from 'react-router-dom'
+import Header from './Header'
+import Footer from './Footer'
 const Layouts = () => {
+  return (
     <>
-        <Header />
-        <Outlet />
-        <Footer />
+    <Header/>
+    <Outlet/>
+    <Footer/>
     </>
+  )
 }
 
-export default Layouts;
+export default Layouts

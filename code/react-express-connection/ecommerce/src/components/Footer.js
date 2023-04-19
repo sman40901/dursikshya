@@ -1,10 +1,8 @@
-
-import React from "react";
+import React from 'react'
 
 const Footer = () => {
   return (
     <>
-      {/* <!-- footer layout starts --> */}
       <div className="container-fluid bg-secondary">
         <footer className="py-5 mt-4">
           <div className="row">
@@ -47,8 +45,8 @@ const Footer = () => {
                 <p>Monthly digest of whats new and exciting from us.</p>
                 <div className="d-flex w-100 gap-2">
                   <label for="newsletter1" className="visually-hidden">Email address</label>
-                  <input id="newsletter1" type="text" className="form-control" placeholder="Email address"/>
-                    <button className="btn btn-primary" type="button">Subscribe</button>
+                  <input id="newsletter1" type="text" className="form-control" placeholder="Email address" />
+                  <button className="btn btn-primary" type="button">Subscribe</button>
                 </div>
               </form>
             </div>
@@ -64,11 +62,8 @@ const Footer = () => {
           </div>
         </footer>
       </div>
-
-
-      {/* <!-- footer layout ends --> */}
     </>
-  );
+  )
 }
 
-export default Footer;
+export default Footer
