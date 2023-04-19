@@ -7,6 +7,7 @@ import IncrementDecrement from "../hooks/IncrementDecrement";
 import Effect from "../hooks/Effect";
 import DataFetch from "../hooks/DataFetch";
 import axios from "axios";
+import Show from "../context/Show";
 
 const Home = () => {
   const stdLimit = 8;
@@ -40,6 +41,7 @@ const Home = () => {
       <IncrementDecrement />
       <Effect />
       <DataFetch />
+      <Show />
     </>
   );
 };

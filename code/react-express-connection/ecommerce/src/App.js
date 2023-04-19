@@ -1,10 +1,11 @@
 
 import './App.css';
+import MyRoutes from './MyRoutes';
 
-const App = () => {
+const App=()=> {
   return (
     <>
-      <h1>Ecommerce</h1>
+    <MyRoutes/>
     </>
   );
 }
