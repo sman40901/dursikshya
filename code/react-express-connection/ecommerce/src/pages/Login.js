@@ -1,7 +1,29 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate, Navigate } from 'react-router-dom'
+import { signin } from '../auth'
 
 const Login = () => {
+    const navigate = useNavigate();
+    const [values, setValues] = useState({
+        email: '',
+        password: '',
+        error: '',
+        redirectToPage: false
+    });
+    const { email, password, error, redirectToPage } = values;
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        setValues({ ...values, error: false })
+        signin({ email, password })
+            .then(data => {
+                if (data.error) {
+                    setValues({ ...values, error: data.error })
+                } else {
+                    return
+                }
+            })
+    }
     return (
         <>
 
@@ -22,7 +44,8 @@ const Login = () => {
                         </div>
 
                         <div className="mb-3">
-                            <button type="submit" className="btn btn-primary">Login</button>
+                            <button type="submit" className="btn btn-primary"
+                                onClick={handleSubmit}>Login</button>
                         </div>
                         <div className='d-flex justify-content-between'>
                             <Link to="/forgotpassword"
