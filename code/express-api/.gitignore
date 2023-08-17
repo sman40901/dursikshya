@@ -1,0 +1,16 @@
+.idea
+npm-debug.log
+.DS_Store
+node_modules
+bin
+.vscode
+newrelic_agent.log
+lib
+*.log
+coverage
+.sonar
+.scannerwork
+
+# Contrast Security Log files
+node-contrast-*.log
+security-*.log
