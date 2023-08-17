@@ -18,7 +18,7 @@ exports.postCategory = async (req, res) => {
                 category = await category.save();
 
                 if (!category) {
-                    return res.status(400).json({ error: 'something went wrong, check your data format' });
+                    return res.status(500).json({ error: 'something went wrong, check your data format' });
                 }
                 res.send(category);
             }
