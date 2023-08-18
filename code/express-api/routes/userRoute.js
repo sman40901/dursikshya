@@ -5,6 +5,6 @@ const { productValidation, validation } = require('../validation/validator');
 const { postRegister, getUserList } = require('../controllers/userController');
 
 router.post('/register', postRegister);
-router.post('/userlist', getUserList);
+router.get('/userlist', getUserList);
 
 module.exports = router

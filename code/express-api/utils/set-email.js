@@ -3,11 +3,11 @@ const nodemailer = require('nodemailer');
 
 const sendEmail = options => {
     const transport = nodemailer.createTransport({ // get these values from env file
-        host: "sandbox.smtp.mailtrap.io",
-        port: 2525,
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT,
         auth: {
-            user: "bb2786058d386e", 
-            pass: "42b121ab9f978c"
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS
         }
     });
 
