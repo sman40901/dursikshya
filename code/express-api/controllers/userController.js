@@ -2,6 +2,7 @@ const User = require('../models/userModel');
 const Token = require('../models/tokenModel');
 const crypto = require('crypto');
 const sendEmail = require('../utils/set-email');
+const jwt = require('jsonwebtoken');
 
 //to register user
 exports.postRegister = async (req, res) => {
@@ -53,7 +54,9 @@ exports.postRegister = async (req, res) => {
 
 // to show the list of categories
 exports.getUserList = async (req, res) => {
-    const user = await User.find();
+    const user = await User.find()
+        .select('-hashed_password') // dont show hashed_password field
+        .select('-salt'); // dont show salt field
     if (!user) {
         return res.status(500).json({ error: 'could not retrive data' });
     }
@@ -69,7 +72,7 @@ exports.postEmailConfirmation = (req, res) => {
                 return res.status(400).json({ error: 'invalid token or token may have expired' });
             }
             User.findOne({ _id: token.userId })
-                .then(user => {
+                .then(user => { // use .then when using promise
                     if (!user) {
                         return res.status(400).json({ error: 'unable to find valid token' })
                     }
@@ -103,7 +106,7 @@ exports.signIn = async (req, res) => {
     // at first check email is registered in database or not
     const user = await User.findOne({ email });
     if (!user) {
-        return res.status(403).json({ error: 'the email provided is not found, please register first' })
+        return res.status(403).json({ error: 'the email provided is not found, please register first' });
     }
     // if email is found then check the password
     if (!user.authenticate(password)) {
@@ -112,7 +115,80 @@ exports.signIn = async (req, res) => {
 
     //check if user is verified or not
     if (!user.isVerified) {
-        return res.status(400).json({ error: 'verify your email first to continue' })
+        return res.status(400).json({ error: 'verify your email first to continue' });
+    }
+    // res.send(user);
+
+    // now generate token with user id, role and jwt secret
+    const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET);
+    // store this token in a cookie
+    res.cookie('myCookie', token, { expire: Date.now() + 99999 });
+
+    // return user information to front end
+    const { _id, name, role } = user;
+    return res.json({ token, user: { name, email, role, _id } });
+}
+
+//forgot password
+exports.forgetPassword = async (req, res) => {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) { // use this pattern when using await
+        return res.status(403).json({ error: 'the email you provided does not exist' });
+    }
+    // save token in the token model
+    let token = new Token({
+        token: crypto.randomBytes(16).toString('hex'),
+        userId: user._id
+    });
+    token = await token.save();
+    if (!token) {
+        return res.status(500).json({ error: 'failed to create token' })
+    }
+
+    // send email process
+    sendEmail({
+        from: 'no-reply@ecommerce.com',
+        to: user.email,
+        subject: 'email verification link',
+        text: `Hello,\n\n
+    Please reset your password by clicking the link below:\n\n
+    http:\/\/${req.headers.host}\/api\/resetpassword\/${token.token}
+    `
+        //http://localhost:5000/api/resetpassword/454ABCDEF
+    })
+    res.json({ message: 'password reset link was sent to your email ' + req.body.email })
+}
+
+//forgot password
+exports.resetPassword = async (req, res) => {
+    // find the valid or matching token
+    let token = await Token.findOne({ token: req.params.token });
+    if (!token) {
+        return res.status(400).json({ error: 'invalid or expired token' });
+    }
+
+    // if token found then the valid user  for this token
+    let user = await User.findOne({ _id: token.userId });
+    if (!user) {
+        return res.status(400).json({ error: 'failed to find valid user' });
+    }
+    user.password = req.body.password;
+    user = await user.save();
+
+    if (!user) {
+        return res.status(500).json({ error: 'failed to reset password' });
+    }
+
+    res.json({ message: 'password has been reset' })
+}
+
+// get user details
+exports.userDetails = async (req, res) => {
+    const user = await User.findById(req.params.id)
+        .select('-hashed_password') // dont show hashed_password field
+        .select('-salt'); // dont show salt fields
+    if (!user) {
+        return res.status(400).json({ error: 'no data found' })
     }
     res.send(user);
 }
