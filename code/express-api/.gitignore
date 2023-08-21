@@ -10,6 +10,7 @@ lib
 coverage
 .sonar
 .scannerwork
+.env
 
 # Contrast Security Log files
 node-contrast-*.log
