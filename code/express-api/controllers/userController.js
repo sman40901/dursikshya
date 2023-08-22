@@ -3,6 +3,7 @@ const Token = require('../models/tokenModel');
 const crypto = require('crypto');
 const sendEmail = require('../utils/set-email');
 const jwt = require('jsonwebtoken');
+var { expressjwt } = require("express-jwt");
 
 //to register user
 exports.postRegister = async (req, res) => {
@@ -191,4 +192,56 @@ exports.userDetails = async (req, res) => {
         return res.status(400).json({ error: 'no data found' })
     }
     res.send(user);
+}
+
+// require signin
+exports.requireSignIn = expressjwt({
+    secret: process.env.JWT_SECRET,
+    algorithms: ["HS256"]
+});
+
+
+// admin middleware
+exports.requireAdmin = (req, res, next) => {
+    expressjwt({
+        secret: process.env.JWT_SECRET,
+        algorithms: ["HS256"],
+        userProperty: 'auth'
+    })(req, res, (err) => {
+        if (err) {
+            return res.status(401).json({ error: 'unauthorized access detected' })
+            // 401 is unauthorized
+        }
+        if (req.auth.role === 1) {
+            next();
+        }
+        else {
+            return res.status(403).json({ error: 'you are not authorized to access to this page' })
+        }
+    });
+}
+
+// user middleware
+exports.requireUser = (req, res, next) => {
+    expressjwt({
+        secret: process.env.JWT_SECRET,
+        algorithms: ["HS256"],
+        userProperty: 'auth'
+    })(req, res, (err) => { // this is expressJWT function body
+        if (err) {
+            return res.status(401).json({ error: 'unauthorized access detected' })
+            // 401 is unauthorized
+        }
+        if (req.auth.role === 0) {
+            next();
+        }
+        else {
+            return res.status(403).json({ error: 'you are not authorized to access to this page' })
+        }
+    });
+}
+
+exports.signOut = (req, res) => {
+    res.clearCookie('myCookie');
+    res.json({ message: 'signout success' });
 }
