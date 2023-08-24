@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const categoryRoute = require('./routes/categoryRoute');
 const productRoute = require('./routes/productRoute');
 const userRoute = require('./routes/userRoute');
+const orderRoute = require('./routes/orderRoute');
 
 
 app.get('/', (req, res) => {
@@ -22,6 +23,7 @@ app.use('/public/uploads', express.static('public/uploads')); // so that front e
 app.use('/api', categoryRoute); // prefixed with 'api' path
 app.use('/api', productRoute);
 app.use('/api', userRoute);
+app.use('/api', orderRoute);
 
 
 const port = process.env.PORT || 8000
