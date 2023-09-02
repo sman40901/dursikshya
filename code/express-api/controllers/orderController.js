@@ -44,3 +44,62 @@ exports.postOrder = async (req, res) => {
     }
     res.send(order);
 }
+
+//order list
+exports.orderList = async (req, res) => {
+    const order = await Order.find()
+        .populate('user', 'name')
+        .sort({ createdAt: -1 });
+
+    if (!order) {
+        return res.status(400).json({ error: 'something went wrong, cannot find order' });
+
+    }
+    res.send(order);
+}
+
+
+// order details
+exports.orderDetails = async (req, res) => {
+    const order = await Order.findById(req.params.id)
+        .populate('user', 'name')
+        .populate({
+            path: 'orderItems', populate: {
+                path: 'product', populate: 'category'
+            }
+        });
+    if (!order) {
+        return res.status(400).json({ error: 'something went wrong, cannot find order' });
+
+    }
+    res.send(order);
+}
+
+// udpate order status
+exports.updateStatus = async (req, res) => {
+    const order = await Order.findByIdAndUpdate(
+        req.params.id,
+        { status: req.body.status },
+        { new: true }
+    );
+    if (!order) {
+        return res.status(400).json({ error: 'something went wrong, cannot find order' });
+
+    }
+    res.send(order);
+}
+
+//order list of specific user
+exports.orderListOfAUser = async (req, res) => {
+    const order = await Order.find({ user: req.params.userid })
+        .populate({
+            path: 'orderItems', populate: {
+                path: 'product', populate: 'category'
+            }
+        });
+    if (!order) {
+        return res.status(400).json({ error: 'something went wrong, cannot find order' });
+
+    }
+    res.send(order);
+}

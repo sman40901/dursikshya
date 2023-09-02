@@ -4,10 +4,13 @@ require('dotenv').config();
 require('./db/connection');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const cors =  require('cors');
+
 const categoryRoute = require('./routes/categoryRoute');
 const productRoute = require('./routes/productRoute');
 const userRoute = require('./routes/userRoute');
 const orderRoute = require('./routes/orderRoute');
+const paymentRoute = require('./routes/paymentRoute');
 
 
 app.get('/', (req, res) => {
@@ -18,12 +21,14 @@ app.get('/', (req, res) => {
 app.use(morgan('dev')); // only can be use in dev mode
 app.use(bodyParser.json());
 app.use('/public/uploads', express.static('public/uploads')); // so that front end can access public folder to access the pics
+app.use(cors());
 
 //routes
 app.use('/api', categoryRoute); // prefixed with 'api' path
 app.use('/api', productRoute);
 app.use('/api', userRoute);
 app.use('/api', orderRoute);
+app.use('/api', paymentRoute);
 
 
 const port = process.env.PORT || 8000
