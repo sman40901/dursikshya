@@ -6,6 +6,7 @@ import Product from "./pages/Product";
 import Register from "./pages/Register";
 import Layout from "./pages/Layout";
 import ProductDetails from "./pages/ProductDetails";
+import Cart from "./pages/Cart";
 
 const MyRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const MyRoutes = () => {
             <Route path='products' element={<Product />} />
             <Route path='register' element={<Register />} />
             <Route path='productdetails/:productId' element={<ProductDetails />} />
+            <Route path='cart' element={<Cart />} />
           </Route>
         </Routes>
       </Router>
