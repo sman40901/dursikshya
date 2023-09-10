@@ -1,8 +1,11 @@
 
 import React from "react";
-import {NavLink} from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { isAuthenticated, signout } from '../auth';
+
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <>
       <header className="p-3 text-bg-dark">
@@ -22,12 +25,36 @@ const Header = () => {
             </ul>
 
             <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-              <input type="search" className="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search"/>
+              <input type="search" className="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search" />
             </form>
 
             <div className="text-end">
-              <button type="button" className="btn btn-outline-light me-2">Login</button>
-              <button type="button" className="btn btn-warning">Sign-up</button>
+              {!isAuthenticated() &&
+                <>
+                  <NavLink to='/signin' type="button" className="btn btn-outline-light me-2">Login</NavLink>
+                  <NavLink to='/register' type="button" className="btn btn-warning">Sign-up</NavLink>
+                </>
+              }
+              {isAuthenticated() &&
+                isAuthenticated.user.role === 1
+                &&
+                <>
+                  <NavLink to='/admin/dashboard' type="button" className="btn btn-outline-light me-2">Admin</NavLink>
+                </>
+              }
+              {isAuthenticated() &&
+                isAuthenticated.user.role === 0
+                &&
+                <>
+                  <NavLink to='/profile' type="button" className="btn btn-outline-light me-2">Profile</NavLink>
+
+                </>
+              }
+              {isAuthenticated() &&
+                <button className="btn btn-danger" onClick={() => signout(() => {
+                  navigate('/signin');
+                })}>LogOut</button>
+              }
             </div>
           </div>
         </div>

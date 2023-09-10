@@ -10,7 +10,7 @@ const AdminRoute = () => (
             <Outlet />
         </>
         : (
-            <Navigate to='signin' />
+            <Navigate to='/signin' />
         )
 )
 
