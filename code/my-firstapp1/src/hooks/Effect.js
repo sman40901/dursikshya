@@ -5,7 +5,8 @@ const Effect = () => {
   const [num, setNum] = useState(5);
 
   useEffect(() => {
-    alert("this is effect");
+    // removed the alert for sometime 
+    // alert("this is effect");
     // this func is called at page load
   }, [count]); // pass empty array this func wont be called in any event change
   // will be called only once at page load
