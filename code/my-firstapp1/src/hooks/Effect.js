@@ -13,7 +13,7 @@ const Effect = () => {
   // if passed some variable it will be called everytime when the state of that object changes
   return (
     <>
-      <h2>{count}</h2>
+      {/* <h2>{count}</h2>
       <button className="btn btn-primary" onClick={() => setCount(1 + count)}>
         Increment by 1
       </button>
@@ -21,7 +21,7 @@ const Effect = () => {
       <h2>{num}</h2>
       <button className="btn btn-success" onClick={() => setNum(3 + num)}>
         Increment by 3
-      </button>
+      </button> */}
     </>
   );
 };
